@@ -25,12 +25,11 @@
     background: #fff;
     color: #111;
     border: 1px solid #ccc;
-    padding: 0 0 0;
     position: relative;
     overflow: hidden;
   }
 
-  /* Watermark logo background */
+  /* Watermark */
   .page::before {
     content: '';
     position: absolute;
@@ -48,10 +47,7 @@
     pointer-events: none;
   }
 
-  /* All content sits above the watermark */
-  .gold-bar,
-  .logo-header,
-  .receipt-body { position: relative; z-index: 1; }
+  .gold-bar, .logo-header, .receipt-body { position: relative; z-index: 1; }
 
   .gold-bar {
     height: 5px;
@@ -59,7 +55,6 @@
     width: 100%;
   }
 
-  /* Header */
   .logo-header {
     display: flex;
     align-items: center;
@@ -75,10 +70,7 @@
     flex-shrink: 0;
   }
 
-  .header-text {
-    flex: 1;
-    text-align: center;
-  }
+  .header-text { flex: 1; text-align: center; }
 
   .business-name {
     font-family: 'IM Fell English', serif;
@@ -88,7 +80,6 @@
     letter-spacing: 0.01em;
     line-height: 1.1;
   }
-
   .business-name em { font-style: italic; }
 
   .biz-tag {
@@ -106,7 +97,6 @@
     margin-top: 6px;
   }
 
-  /* Receipt body */
   .receipt-body { padding: 20px 32px 28px; }
 
   .meta {
@@ -270,7 +260,6 @@
     transition: all 0.15s;
     user-select: none;
   }
-
   .pay-chip.active { background: #111; color: #fff; border-color: #111; }
   .pay-chip:hover:not(.active) { background: #f0f0f0; }
 
@@ -300,15 +289,16 @@
     line-height: 1.6;
   }
 
-  /* Screen-only bottom gold bar */
   .gold-bar-bottom { position: relative; z-index: 1; }
 
-  /* Actions (screen only) */
-  .actions {
+  /* Print mode selector (screen only) */
+  .print-controls {
     display: flex;
     gap: 10px;
     justify-content: center;
+    align-items: center;
     margin-top: 22px;
+    flex-wrap: wrap;
   }
 
   .btn {
@@ -323,7 +313,6 @@
     color: #111;
     transition: all 0.15s;
   }
-
   .btn.primary { background: #111; color: #fff; }
   .btn:hover { opacity: 0.75; }
 
@@ -336,15 +325,8 @@
     font-family: 'DM Mono', monospace;
   }
 
-  /* ============================================================
-     PRINT STYLES — landscape & portrait both handled
-     ============================================================ */
+  /* ── SHARED PRINT BASE ── */
   @media print {
-    @page {
-      size: A4 landscape;
-      margin: 10mm 12mm;
-    }
-
     body {
       background: white !important;
       padding: 0 !important;
@@ -352,125 +334,41 @@
       display: block;
     }
 
-    .actions, .edit-tip { display: none !important; }
+    .print-controls, .edit-tip { display: none !important; }
 
     .page {
       max-width: 100% !important;
       width: 100% !important;
       border: none !important;
       box-shadow: none !important;
-      padding: 0 !important;
       overflow: visible !important;
     }
 
-    /* Keep watermark visible in print */
     .page::before {
       opacity: 0.06 !important;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
 
-    /* Gold bars print in colour */
     .gold-bar {
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
       height: 4px !important;
     }
 
-    /* Header */
-    .logo-header {
-      padding: 10px 18px 10px !important;
-    }
-
-    .logo-img {
-      width: 58px !important;
-      height: 58px !important;
-    }
-
-    .business-name {
-      font-size: 22px !important;
-    }
-
-    .biz-tag {
-      font-size: 8px !important;
-      margin-top: 3px !important;
-    }
-
-    .biz-info {
-      font-size: 9px !important;
-      margin-top: 4px !important;
-    }
-
-    /* Receipt body */
-    .receipt-body {
-      padding: 12px 24px 0 !important;
-    }
-
-    /* Meta row — bigger so it prints clearly */
-    .meta {
-      padding-bottom: 8px !important;
-      margin-bottom: 12px !important;
-    }
-
-    .meta-lbl {
-      font-size: 8.5px !important;
-    }
-
-    .meta-val {
-      font-size: 11px !important;
-    }
-
-    /* Items box */
-    .items-box {
-      min-height: 130px !important;
-      margin-bottom: 10px !important;
-      background: transparent !important;
-    }
-
-    .items-box-inner {
-      min-height: 110px !important;
-      font-size: 11px !important;
-    }
-
-    .ruled-lines::after {
-      background-image: repeating-linear-gradient(
-        to bottom,
-        transparent,
-        transparent calc(2em - 1px),
-        #ccc calc(2em - 1px),
-        #ccc 2em
-      ) !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
-    }
-
+    .items-box { background: transparent !important; }
     .placeholder-text { display: none !important; }
 
-    /* Totals */
-    .totals {
-      padding-top: 8px !important;
-      margin-bottom: 10px !important;
-    }
-
-    .total-row { font-size: 11px !important; padding: 3px 0 !important; }
-    .total-row.grand { font-size: 13px !important; }
-
-    /* Payment */
-    .payment-section {
-      padding-top: 8px !important;
-      margin-bottom: 10px !important;
-    }
-
-    .pay-label { font-size: 8.5px !important; }
-
-    .pay-chip {
-      padding: 3px 9px !important;
-      font-size: 9px !important;
-      background: transparent !important;
+    .ruled-lines::after {
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
 
+    .pay-chip {
+      background: transparent !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
     .pay-chip.active {
       background: #111 !important;
       color: #fff !important;
@@ -478,23 +376,80 @@
       print-color-adjust: exact;
     }
 
-    /* Signatures */
-    .sig-row { margin-bottom: 12px !important; }
-    .sig-lbl { font-size: 8.5px !important; }
+    [contenteditable] { border: none !important; outline: none !important; }
+  }
 
-    /* Footer — keep tight so it never wraps to next page */
-    .footer { padding-top: 10px !important; }
-    .thank-msg { font-size: 13px !important; }
-    .footer-note { font-size: 8.5px !important; margin-top: 3px !important; }
+  /* ── PORTRAIT PRINT ── */
+  @media print and (orientation: portrait) {
+    @page { size: A4 portrait; margin: 12mm 14mm; }
 
-    /* Bottom gold bar */
-    .gold-bar-bottom { margin-top: 14px !important; }
+    .logo-header { padding: 12px 20px 12px !important; }
+    .logo-img { width: 64px !important; height: 64px !important; }
+    .business-name { font-size: 24px !important; }
+    .biz-tag { font-size: 8px !important; }
+    .biz-info { font-size: 9px !important; }
 
-    /* Editable fields — remove dashed borders */
-    [contenteditable] {
-      border: none !important;
-      outline: none !important;
-    }
+    .receipt-body { padding: 16px 28px 0 !important; }
+
+    .meta { padding-bottom: 10px !important; margin-bottom: 14px !important; }
+    .meta-lbl { font-size: 9px !important; }
+    .meta-val { font-size: 12px !important; }
+
+    .items-box { min-height: 220px !important; margin-bottom: 14px !important; }
+    .items-box-inner { min-height: 200px !important; font-size: 12px !important; }
+
+    .total-row { font-size: 12px !important; }
+    .total-row.grand { font-size: 14px !important; }
+
+    .pay-label { font-size: 9px !important; }
+    .pay-chip { font-size: 10px !important; padding: 4px 10px !important; }
+
+    .sig-lbl { font-size: 9px !important; }
+    .sig-row { margin-bottom: 16px !important; }
+
+    .footer { padding-top: 12px !important; }
+    .thank-msg { font-size: 14px !important; }
+    .footer-note { font-size: 9px !important; }
+
+    .gold-bar-bottom { margin-top: 20px !important; }
+  }
+
+  /* ── LANDSCAPE PRINT ── */
+  @media print and (orientation: landscape) {
+    @page { size: A4 landscape; margin: 10mm 12mm; }
+
+    .logo-header { padding: 10px 18px 10px !important; }
+    .logo-img { width: 54px !important; height: 54px !important; }
+    .business-name { font-size: 21px !important; }
+    .biz-tag { font-size: 7.5px !important; margin-top: 3px !important; }
+    .biz-info { font-size: 8.5px !important; margin-top: 3px !important; }
+
+    .receipt-body { padding: 10px 22px 0 !important; }
+
+    .meta { padding-bottom: 8px !important; margin-bottom: 10px !important; }
+    .meta-lbl { font-size: 8.5px !important; }
+    .meta-val { font-size: 11px !important; }
+
+    .items-box { min-height: 120px !important; margin-bottom: 10px !important; }
+    .items-box-inner { min-height: 100px !important; font-size: 11px !important; }
+
+    .totals { padding-top: 8px !important; margin-bottom: 8px !important; }
+    .total-row { font-size: 11px !important; padding: 3px 0 !important; }
+    .total-row.grand { font-size: 13px !important; }
+
+    .payment-section { padding-top: 8px !important; margin-bottom: 8px !important; }
+    .pay-label { font-size: 8px !important; }
+    .pay-chip { font-size: 9px !important; padding: 3px 8px !important; }
+
+    .sig-row { margin-bottom: 10px !important; }
+    .sig-lbl { font-size: 8px !important; }
+    .sig-line { height: 22px !important; }
+
+    .footer { padding-top: 9px !important; }
+    .thank-msg { font-size: 12px !important; }
+    .footer-note { font-size: 8px !important; margin-top: 3px !important; }
+
+    .gold-bar-bottom { margin-top: 12px !important; }
   }
 </style>
 </head>
@@ -589,8 +544,9 @@
 
 <div class="edit-tip">&#9998; Click any field or the items box to fill in &nbsp;&middot;&nbsp; Select payment method &nbsp;&middot;&nbsp; Print when ready</div>
 
-<div class="actions">
-  <button class="btn primary" onclick="window.print()">&#128438; Print Receipt</button>
+<div class="print-controls">
+  <button class="btn primary" onclick="printPortrait()">&#128438; Print Portrait</button>
+  <button class="btn primary" onclick="printLandscape()">&#128438; Print Landscape</button>
   <button class="btn" onclick="clearForm()">New Receipt</button>
 </div>
 
@@ -609,6 +565,25 @@
   function pick(el) {
     document.querySelectorAll('.pay-chip').forEach(c => c.classList.remove('active'));
     el.classList.add('active');
+  }
+
+  function printPortrait() {
+    // Inject a temporary style tag that forces portrait for this print
+    const s = document.createElement('style');
+    s.id = 'force-orientation';
+    s.textContent = '@page { size: A4 portrait; margin: 12mm 14mm; }';
+    document.head.appendChild(s);
+    window.print();
+    setTimeout(() => { const el = document.getElementById('force-orientation'); if(el) el.remove(); }, 1000);
+  }
+
+  function printLandscape() {
+    const s = document.createElement('style');
+    s.id = 'force-orientation';
+    s.textContent = '@page { size: A4 landscape; margin: 10mm 12mm; }';
+    document.head.appendChild(s);
+    window.print();
+    setTimeout(() => { const el = document.getElementById('force-orientation'); if(el) el.remove(); }, 1000);
   }
 
   function clearForm() {
